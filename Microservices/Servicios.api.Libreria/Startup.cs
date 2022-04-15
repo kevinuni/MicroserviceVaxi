@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Servicios.api.Libreria.Core;
+using Servicios.api.Libreria.Core.ContextMongoDB;
+using Servicios.api.Libreria.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +36,10 @@ namespace Servicios.api.Libreria
                 );
 
             services.AddSingleton<MongoSettings>();
+
+            services.AddTransient<IAutorContext, AutorContext>();
+            services.AddTransient<IAutorRepository, AutorRepository>();
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
